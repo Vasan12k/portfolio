@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Srinivasan K — Cyber Security Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --g0: #000a00;
+    --g1: #001a00;
+    --g2: #003300;
+    --g3: #00ff41;
+    --g4: #00cc33;
+    --g5: #39ff14;
+    --g6: #00ff9f;
+    --dim: #004d00;
+    --muted: #1a3300;
+    --text: #ccffcc;
+    --text2: #88bb88;
+    --scan: rgba(0,255,65,0.03);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--g0);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* scanline overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      var(--scan) 2px,
+      var(--scan) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* grid bg */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,65,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,65,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(0,10,0,0.92);
+    border-bottom: 1px solid var(--g2);
+    backdrop-filter: blur(8px);
+    padding: 12px 0;
+  }
+  nav .inner {
+    max-width: 1100px; margin: 0 auto; padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  nav .logo {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px; color: var(--g3);
+    letter-spacing: 2px;
+  }
+  nav .logo span { color: var(--g6); }
+  nav ul { list-style: none; display: flex; gap: 28px; }
+  nav ul li a {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; color: var(--text2);
+    text-decoration: none; letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color .2s;
+  }
+  nav ul li a:hover { color: var(--g3); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 80px 24px 60px;
+    position: relative;
+  }
+
+  /* corner brackets */
+  .hero::before, .hero::after {
+    content: '';
+    position: absolute;
+    width: 60px; height: 60px;
+    border-color: var(--g4);
+    border-style: solid;
+  }
+  .hero::before { top: 100px; left: 40px; border-width: 2px 0 0 2px; }
+  .hero::after  { bottom: 60px; right: 40px; border-width: 0 2px 2px 0; }
+
+  .profile-ring {
+    position: relative;
+    width: 140px; height: 140px;
+    margin-bottom: 28px;
+  }
+  .profile-ring svg {
+    position: absolute; inset: 0;
+    animation: spin 12s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .profile-img {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    background: var(--g2);
+    border: 2px solid var(--g4);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 38px;
+    color: var(--g3);
+    overflow: hidden;
+  }
+
+  .hero-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px; color: var(--g4);
+    letter-spacing: 4px; text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .hero-tag::before { content: '[ '; }
+  .hero-tag::after  { content: ' ]'; }
+
+  .hero-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(42px, 7vw, 72px);
+    font-weight: 700;
+    color: var(--g3);
+    line-height: 1;
+    margin-bottom: 6px;
+    text-shadow: 0 0 30px rgba(0,255,65,0.3);
+    letter-spacing: 4px;
+  }
+
+  .hero-title {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(11px, 1.8vw, 14px);
+    color: var(--text2);
+    letter-spacing: 2px;
+    margin-bottom: 32px;
+  }
+  .hero-title .sep { color: var(--g4); margin: 0 6px; }
+
+  /* typing cursor */
+  .cursor {
+    display: inline-block;
+    width: 2px; height: 1em;
+    background: var(--g3);
+    margin-left: 4px;
+    vertical-align: text-bottom;
+    animation: blink .8s step-end infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* social buttons */
+  .socials {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 48px;
+  }
+  .btn-social {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 20px;
+    border: 1px solid var(--g4);
+    background: transparent;
+    color: var(--g3);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 1px;
+    text-decoration: none;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all .2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-social::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--g4);
+    transform: translateX(-101%);
+    transition: transform .2s;
+    z-index: -1;
+  }
+  .btn-social:hover { color: var(--g0); border-color: var(--g3); }
+  .btn-social:hover::before { transform: translateX(0); }
+  .btn-social .ico { font-size: 14px; }
+
+  /* stats bar */
+  .stat-bar {
+    display: flex; gap: 40px;
+    padding: 20px 40px;
+    border: 1px solid var(--g2);
+    background: rgba(0,20,0,0.6);
+    margin-bottom: 0;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 28px; color: var(--g3);
+    display: block;
+  }
+  .stat-lbl {
+    font-size: 10px; color: var(--text2);
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+
+  /* scroll hint */
+  .scroll-hint {
+    position: absolute; bottom: 30px; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px; color: var(--dim);
+    letter-spacing: 2px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+  /* ── SUMMARY SECTION ── */
+  .section {
+    padding: 80px 0;
+    border-top: 1px solid var(--g2);
+  }
+  .sec-header {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 40px;
+  }
+  .sec-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px; color: var(--g4);
+    letter-spacing: 2px;
+  }
+  .sec-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 28px; font-weight: 700;
+    color: var(--g3); letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .sec-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(to right, var(--g4), transparent);
+  }
+
+  .summary-box {
+    border: 1px solid var(--g2);
+    background: rgba(0,20,0,0.5);
+    padding: 36px 40px;
+    position: relative;
+  }
+  .summary-box::before {
+    content: '> PROFILE_SUMMARY.txt';
+    position: absolute; top: -10px; left: 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px; color: var(--g4);
+    background: var(--g0);
+    padding: 0 8px;
+    letter-spacing: 1px;
+  }
+  .summary-box p {
+    font-size: 16px; line-height: 1.9;
+    color: var(--text);
+    font-weight: 400;
+  }
+  .summary-box p strong, .summary-box p .hl {
+    color: var(--g3); font-weight: 600;
+  }
+
+  /* highlight chips */
+  .chips {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 24px;
+  }
+  .chip {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px; letter-spacing: 1px;
+    padding: 5px 12px;
+    border: 1px solid var(--g2);
+    color: var(--g4);
+    background: rgba(0,50,0,0.4);
+    text-transform: uppercase;
+  }
+
+  /* ── FOOTER partial ── */
+  .footer-note {
+    text-align: center;
+    padding: 24px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px; color: var(--dim);
+    letter-spacing: 2px;
+    border-top: 1px solid var(--g2);
+  }
+
+  /* fade-in on scroll */
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <div class="logo">SK<span>://</span>CYBER</div>
+    <ul>
+      <li><a href="#summary">About</a></li>
+      <li><a href="#activity">Activity</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#certs">Certs</a></li>
+      <li><a href="#dashboard">Dashboard</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="profile-ring">
+    <svg viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="70" cy="70" r="68" stroke="#003300" stroke-width="1"/>
+      <circle cx="70" cy="70" r="68" stroke="#00ff41" stroke-width="1.5"
+        stroke-dasharray="12 6" stroke-dashoffset="0"/>
+      <circle cx="70" cy="2" r="4" fill="#00ff41"/>
+      <circle cx="70" cy="138" r="3" fill="#004d00"/>
+    </svg>
+    <div class="profile-img">SK</div>
+  </div>
+
+  <div class="hero-tag">Cyber Security Engineer</div>
+  <h1 class="hero-name">SRINIVASAN K</h1>
+  <p class="hero-title">
+    SOC Analyst<span class="sep">//</span>VAPT<span class="sep">//</span>Penetration Tester<span class="sep">//</span>Ethical Hacker<span class="cursor"></span>
+  </p>
+
+  <div class="socials">
+    <a class="btn-social" href="https://linkedin.com/in/srinivasan-k" target="_blank">
+      <span class="ico">in</span> LinkedIn
+    </a>
+    <a class="btn-social" href="https://github.com/srinivasan-k" target="_blank">
+      <span class="ico">&#60;/&#62;</span> GitHub
+    </a>
+    <a class="btn-social" href="https://tryhackme.com/p/srinivasank" target="_blank">
+      <span class="ico">&#9654;</span> TryHackMe
+    </a>
+  </div>
+
+  <div class="stat-bar">
+    <div class="stat">
+      <span class="stat-num">Top 25%</span>
+      <span class="stat-lbl">TryHackMe rank</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">3+</span>
+      <span class="stat-lbl">Months SOC Intern</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">10+</span>
+      <span class="stat-lbl">Certifications</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">2026</span>
+      <span class="stat-lbl">Graduating</span>
+    </div>
+  </div>
+
+  <div class="scroll-hint">▼ scroll to explore ▼</div>
+</section>
+
+<!-- SUMMARY -->
+<section class="section" id="summary">
+  <div class="wrap">
+    <div class="sec-header reveal">
+      <span class="sec-num">01</span>
+      <h2 class="sec-title">Profile Summary</h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="summary-box reveal">
+      <p>
+        Motivated final-year <span class="hl">B.E. Computer Science</span> student and
+        <span class="hl">Cyber Security Intern</span> with hands-on experience in
+        penetration testing, vulnerability assessment (VAPT), SOC monitoring, log analysis,
+        threat detection, and incident response. Proficient with
+        <span class="hl">Kali Linux, Burp Suite, Nmap, Metasploit, OWASP ZAP, Wireshark</span>,
+        and <span class="hl">Wazuh SIEM</span>. Experienced in firewall configuration, IDS/IPS,
+        network security monitoring, patch management, and secure system hardening.
+        Familiar with <span class="hl">NIST, HIPAA, PCI DSS</span>, and SOC 2 compliance frameworks.
+        Achieved <span class="hl">Top 25% on TryHackMe</span>. Seeking a Cyber Security Intern
+        or SOC/VAPT Analyst role to contribute to information security, privacy, risk, and
+        compliance programs.
+      </p>
+      <div class="chips">
+        <span class="chip">Penetration Testing</span>
+        <span class="chip">VAPT</span>
+        <span class="chip">SOC Monitoring</span>
+        <span class="chip">Incident Response</span>
+        <span class="chip">SIEM</span>
+        <span class="chip">Threat Detection</span>
+        <span class="chip">NIST</span>
+        <span class="chip">HIPAA</span>
+        <span class="chip">PCI DSS</span>
+        <span class="chip">Wazuh</span>
+        <span class="chip">Kali Linux</span>
+        <span class="chip">Ethical Hacking</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-note">branch_01 :: hero + summary + socials — next: activity widget</div>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
